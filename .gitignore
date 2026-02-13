@@ -23,3 +23,12 @@ public/simulatorvue/*
 *.njsproj
 *.sln
 *.sw?
+
+# Code signing secrets (DO NOT COMMIT)
+*.pfx
+*.pfx.b64
+*.b64
+cert.b64
+
+# Tauri / Rust build output
+src-tauri/target/
