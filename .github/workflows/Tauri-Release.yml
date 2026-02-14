@@ -116,6 +116,7 @@ jobs:
                   git add package.json src-tauri/tauri.conf.json src-tauri/Cargo.toml
                   git commit -m "chore: bump version to $NEW_VERSION"
                   git tag "$NEW_VERSION"
+                  git pull origin ${{ github.ref_name }} --rebase
                   git push origin HEAD:${{ github.ref_name }}
                   git push origin "$NEW_VERSION"
 
@@ -224,7 +225,7 @@ jobs:
                       Write-Error "CircuitVerse.exe not found at expected path"
                       exit 1
                   }
-                      
+
             - name: Verify Windows signature
               if: matrix.os == 'windows-2022'
               shell: powershell
