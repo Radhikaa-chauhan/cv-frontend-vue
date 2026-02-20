@@ -210,13 +210,11 @@ jobs:
               if: matrix.os == 'windows-2022'
               shell: powershell
               run: |
-                  $sdkPath = "C:\Program Files (x86)\Windows Kits\10\bin"
-                  $signtool = Get-ChildItem -Path $sdkPath -Recurse -Filter signtool.exe | Select-Object -First 1
-                  if (-not $signtool) {
+                  $signtool = "C:\Program Files (x86)\Windows Kits\10\bin\x64\signtool.exe"
+                  if (-not (Test-Path $signtool)) {
                                       Write-Error "signtool.exe not found"
                                       exit 1
                                       }
-                  echo "$($signtool.Directory.FullName)" >> $env:GITHUB_PATH
                   & $signtool.FullName /?
 
             
