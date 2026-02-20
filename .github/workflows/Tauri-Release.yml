@@ -217,7 +217,7 @@ jobs:
                                       exit 1
                                       }
                   echo "$($signtool.Directory.FullName)" >> $env:GITHUB_PATH
-                  signtool /?
+                  & $signtool.FullName /?
 
             
             - name: Sign Windows executables
