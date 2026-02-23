@@ -31,4 +31,8 @@ public/simulatorvue/*
 cert.b64
 
 # Tauri / Rust build output
-src-tauri/target/
+src-tauri/target/*
+
+# Certificate files
+circuitverse_base64.txt
+circuitverse.pfx
