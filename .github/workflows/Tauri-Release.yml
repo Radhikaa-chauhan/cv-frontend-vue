@@ -205,15 +205,28 @@ jobs:
               run: |
                   echo "${{ secrets.WINDOWS_CERTIFICATE }}" > cert.b64
                   certutil -decode cert.b64 circuitverse.pfx
+
+            - name: Setup Windows SDK (signtool)
+              if: matrix.os == 'windows-2022'
+              shell: powershell
+              run: |
+                  $signtool = "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x64\signtool.exe"
+                  if (-not (Test-Path $signtool)) {
+                                      Write-Error "signtool.exe not found"
+                                      exit 1
+                                      }
+                  & $signtool /?
+
             
             - name: Sign Windows executables
               if: matrix.os == 'windows-2022'
               shell: powershell
               run: |
+                  $signtool = "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x64\signtool.exe"
                   $exePath = "src-tauri\target\release\CircuitVerse.exe"
 
                   if (Test-Path $exePath) {
-                      signtool sign `
+                      & $signtool sign `
                         /f circuitverse.pfx `
                         /p "${{ secrets.WINDOWS_CERTIFICATE_PASSWORD }}" `
                         /fd SHA256 `
@@ -229,7 +242,8 @@ jobs:
               if: matrix.os == 'windows-2022'
               shell: powershell
               run: |
-                  signtool verify /pa src-tauri\target\release\CircuitVerse.exe
+                  $signtool = "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x64\signtool.exe"
+                  & $signtool verify /pa src-tauri\target\release\CircuitVerse.exe
 
 
             - name: Upload Tauri Build Artifacts
